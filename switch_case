@@ -1,0 +1,19 @@
+#!/bin/bash
+read -p "Whats your favorite pet: " PET
+case "$PET" in 
+	dog)
+		echo "Your Favorite Pet is a dog"
+  	;;
+	
+	cat)
+		echo "Your Favorite Pet is a cat"
+	  ;;
+
+	fish|Fish)
+		echo "Your favorite pet is a fish"
+	  ;;
+
+	*)
+	  echo "Your pet is unknown"
+	  ;;
+esac
