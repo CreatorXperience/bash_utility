@@ -1,29 +1,27 @@
 #!/bin/bash
 filename=$1
-int=$2
-
 intp=""
-
-
-function skedush(){
-if [[ "$int" == "bash" ]];then 
+ext="${1#*.}"
+function skedush () {
+if [[ "$ext" = "sh" ]];then 
   intp="#!/bin/bash"
-elif [[ "$int" == "python" ]];then
+elif [[ "$ext" = "py" ]];then
   intp="#!/bin/env python3"
 else 
   intp=""
 fi
+echo $intp
 }
 
-skedush
-
+val=$(skedush)
+echo $val
 found="$(find . -type f -name $filename)"
 echo "$found"
 if [[ "$found" == *"$filename"* ]];then
   echo "File already exists.."
 else
   touch "$filename"
-  echo "$intp" >> "$filename"
+  echo "$intp" > $1
   chmod 700 "$filename"
   alias vim="nvim"
   vim "$filename"
