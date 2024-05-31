@@ -4,7 +4,7 @@ ca_key="$(openssl genrsa -aes256 -out ca-key.pem 4096)"
 
 if [[ $? -eq 0 ]];then echo "creating private key for certificate authority" ;fi
 
-ca="$(openssl req -new  -x509 -days 365 -key ca-key.pem -out ca.pem -sha256)"
+ca="$(openssl req -new  -x509 -days 365 -key ca-key.pem -out ca.pem)"
 
 if [[ $? -eq 0 ]];then echo "creating public key self signedcertificate" ;fi
 
@@ -75,11 +75,9 @@ sleep 1
 create_cert server  $serverhostname $serverip  server-key
 echo "successfully created server key"
 sleep 2
-read -p "Client hostname" clienthostname
-read -p "Client Ip" clientip
+read -p "Client hostname: " clienthostname
+read -p "Client Ip: " clientip
 sleep 1
 create_cert client $clienthostname client-key
-
-scp -P 22 {ca,client-key,client-cert}.pem $clienthostname@$clientip:~/.docker/
-
-scp -P 22 {ca,server-key,server-cert}.pem $serverhostname@$serverip:~/
+chmod -v 0400 server-key.pem client-key.pem ca-key.pem
+chmod -v 0444 server-cert.pem client-cert.pem ca.pem
