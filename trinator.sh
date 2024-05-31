@@ -3,10 +3,11 @@
 isterminatorup="$(pgrep terminator)"
 
 if [[ -n $isterminatorup ]];then
-	echo "terminator is up"
+	echo "terminator is already running"
 else
-	echo "terminator is down"
-  cd ~
-  $(terminator)
+  DISPLAY=:0
+  XAUTHORITY="/run/user/1000/gdm/Xauthority"
+  DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY terminator & 
+	echo "terminator opened successfully"
 fi
 
